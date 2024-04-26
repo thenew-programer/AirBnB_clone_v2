@@ -8,8 +8,19 @@ class FileStorage:
     __file_path = 'file.json'
     __objects = {}
 
-    def all(self):
-        """Returns a dictionary of models currently in storage"""
+    def all(self, cls=None):
+        """
+        if cls is None
+            Returns a dictionary of models currently in storage
+        else
+            return a filtered dict
+        """
+        if cls:
+            temp = {}
+            for key, value in FileStorage.__objects.items():
+                if cls.__name__ == key.split('.')[0]:
+                    temp[key] = value
+            return temp
         return FileStorage.__objects
 
     def new(self, obj):
@@ -25,6 +36,13 @@ class FileStorage:
                 temp[key] = val.to_dict()
             json.dump(temp, f)
 
+    def delete(self, obj=None):
+        """deletes obj from __object private class attr"""
+        if obj:
+            className = obj.__str__().split("[")[1].split("]")[0]
+            classId = obj.__str__().split("(")[1].split(")")[0]
+            del FileStorage.__objects["{}.{}".format(className, classId)]
+
     def reload(self):
         """Loads storage dictionary from file"""
         from models.base_model import BaseModel
@@ -36,15 +54,15 @@ class FileStorage:
         from models.review import Review
 
         classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
-                  }
+            'BaseModel': BaseModel, 'User': User, 'Place': Place,
+            'State': State, 'City': City, 'Amenity': Amenity,
+            'Review': Review
+        }
         try:
             temp = {}
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
