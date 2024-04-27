@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """ """
-from models.base_model import BaseModel
 import unittest
 import datetime
 from uuid import UUID
 import json
 import os
+from models import base_model
+BaseModel = base_model.BaseModel
 
 
 class test_basemodel(unittest.TestCase):

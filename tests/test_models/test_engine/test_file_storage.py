@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """ Module for testing file storage"""
 import unittest
-from models.base_model import BaseModel
-from models import storage
+from models import base_model
+from models.__init__ import storage
 import os
+BaseModel = base_model.BaseModel
 
 
 class test_fileStorage(unittest.TestCase):
