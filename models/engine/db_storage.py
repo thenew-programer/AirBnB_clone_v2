@@ -2,29 +2,28 @@
 """DBStorage class defenition"""
 
 import os
-from sqlalchemy import create_engine
+from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker, scoped_session
-from models.city import City
-from models.user import User
-from models.place import Place
-from models.state import State
-from models.review import Review
-from models.amenity import Amenity
 from models.base_model import Base
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+from models import classes
 import models
 
 
 class DBStorage:
+    ''' DBStorage Class
+
+    __engine (sqlalchemy.engine): hold the db engine
+
+    __session (sqlalchemy.orm.Session): hold the session
+    '''
     __engine = None
     __session = None
-    __classes = {
-        'City': City,
-        'User': User,
-        'Place': Place,
-        'State': State,
-        'Review': Review,
-        'Amenity': Amenity
-    }
 
     def __init__(self):
         db_user = os.getenv('HBNB_MYSQL_USER')
@@ -46,16 +45,16 @@ class DBStorage:
         depending on cls
         """
         dictionary = {}
-        classes = [k for k in self.__classes.keys()]
+        objs = classes.copy()
         if cls:
             try:
-                cls = self.__classes[cls]
+                clsobj = objs[cls]
             except KeyError:
                 pass
             else:
-                classes = [cls]
+                objs = {cls: clsobj}
 
-        for obj in classes:
+        for obj in objs.values():
             for instance in self.__session.query(obj).all():
                 key = f"{instance.__class__.__name__}.{str(instance.id)}"
                 dictionary[key] = instance

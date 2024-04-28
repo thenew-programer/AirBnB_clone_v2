@@ -16,18 +16,15 @@ class FileStorage:
         else
             return a filtered dict
         """
-        temp = {}
         if cls:
-            for key, value in FileStorage.__objects.items():
-                if cls.__name__ == key.split('.')[0]:
-                    temp[key] = value
-        else:
-            temp.update(FileStorage.__objects)
-        return temp
+            temp = {k: v for k, v in self.__objects.items()
+                    if type(v).__name__ == cls}
+            return temp
+        return (self.__objects)
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
+        FileStorage.__objects.update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
         """Saves storage dictionary to file"""
@@ -47,24 +44,12 @@ class FileStorage:
 
     def reload(self):
         """Loads storage dictionary from file"""
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
 
-        classes = {
-            'BaseModel': BaseModel, 'User': User, 'Place': Place,
-            'State': State, 'City': City, 'Amenity': Amenity,
-            'Review': Review
-        }
         try:
             temp = {}
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
+                    self.__objects[key] = models.classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
