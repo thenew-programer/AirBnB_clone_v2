@@ -2,16 +2,67 @@
 """Defines unittests for City class.
 
 Unittest classes:
+    TestCity_docs
     TestCity_instantiation
     TestCity_save
     TestCity_to_dict
 """
 import os
-import models
-import unittest
 from datetime import datetime
 from time import sleep
+import pep8
+import inspect
+import unittest
+import models
 from models.city import City
+
+
+class TestCity_docs(unittest.TestCase):
+    """Unit tests to check the documentation and code style of the City class"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up for documentation tests"""
+        cls.city_methods = inspect.getmembers(City, inspect.isfunction)
+
+    def test_pep8_conformance_city(self):
+        """Test that 'models/city.py' conforms to PEP 8"""
+        pep8_checker = pep8.StyleGuide(quiet=True)
+        result = pep8_checker.check_files(['models/city.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "Code style issues in 'city.py'")
+
+    def test_pep8_conformance_test_city(self):
+        """Test that 'tests/test_models/test_city.py' conforms to PEP 8"""
+        pep8_checker = pep8.StyleGuide(quiet=True)
+        result = pep8_checker.check_files(['tests/test_models/test_city.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "Code style issues in 'test_city.py'")
+
+    def test_city_module_docstring(self):
+        """Test for the docstring in 'city.py' module"""
+        self.assertIsNotNone(models.city.__doc__,
+                             "'city.py' needs a docstring")
+        self.assertGreaterEqual(len(city_module.__doc__),
+                                1, "'city.py' docstring is too short")
+
+    def test_city_class_docstring(self):
+        """Test for the City class docstring"""
+        self.assertIsNotNone(City.__doc__, "City class needs a docstring")
+        self.assertGreaterEqual(len(City.__doc__), 1,
+                                "City class docstring is too short")
+
+    def test_city_method_docstrings(self):
+        """Test for the presence of docstrings in City methods"""
+        for method_name, method in self.city_methods:
+            with self.subTest(method=method_name):
+                self.assertIsNotNone(
+                    method.__doc__, f"{method_name} method needs a docstring"
+                )
+                self.assertGreater(
+                    len(method.__doc__), 1, f"{
+                        method_name} method docstring is too short"
+                )
 
 
 class TestCity_instantiation(unittest.TestCase):

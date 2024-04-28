@@ -2,16 +2,66 @@
 """Defines unittests for Amenity.
 
 Unittest classes:
+    TestAmenity_docs
     TestAmenity_instantiation
     TestAmenity_save
     TestAmenity_to_dict
 """
+
 import os
-import models
 import unittest
+import inspect
 from datetime import datetime
 from time import sleep
+import pep8
+import models
 from models.amenity import Amenity
+
+
+class TestAmenity_docs(unittest.TestCase):
+    """Unit tests for checking documentation and code style in Amenity class"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up for the doc tests"""
+        cls.amenity_methods = inspect.getmembers(Amenity, inspect.isfunction)
+
+    def test_pep8_conformance_amenity(self):
+        """Test that 'models/amenity.py' conforms to PEP 8"""
+        pep8_checker = pep8.StyleGuide(quiet=True)
+        result = pep8_checker.check_files(['models/amenity.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "PEP 8 code style errors in 'amenity.py'.")
+
+    def test_pep8_conformance_test_amenity(self):
+        """Test that 'tests/test_models/test_amenity.py' conforms to PEP 8"""
+        pep8_checker = pep8.StyleGuide(quiet=True)
+        result = pep8_checker.check_files(
+            ['tests/test_models/test_amenity.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "PEP 8 code style errors in 'test_amenity.py'.")
+
+    def test_amenity_module_docstring(self):
+        """Test for the docstring in 'amenity.py' module"""
+        self.assertIsNotNone(
+            amenity.__doc__, "Add a docstring to 'amenity.py'")
+        self.assertGreaterEqual(len(models.amenity.__doc__), 1,
+                                "Add a longer docstring to 'amenity.py'")
+
+    def test_amenity_class_docstring(self):
+        """Test for the docstring in the 'Amenity' class"""
+        self.assertIsNotNone(
+            Amenity.__doc__, "Add a docstring to 'Amenity' class")
+        self.assertGreaterEqual(len(Amenity.__doc__), 1,
+                                "Add a longer docstring to 'Amenity' class")
+
+    def test_amenity_method_docstrings(self):
+        """Test for the presence of docstrings in 'Amenity' methods"""
+        for method in self.amenity_methods:
+            self.assertIsNotNone(method[1].__doc__,
+                                 f"{method[0]} method needs a docstring")
+            self.assertGreaterEqual(len(method[1].__doc__), 1,
+                                    f"{method[0]} method needs a longer docstring")
 
 
 class TestAmenity_instantiation(unittest.TestCase):
