@@ -43,7 +43,7 @@ class TestCity_docs(unittest.TestCase):
         """Test for the docstring in 'city.py' module"""
         self.assertIsNotNone(models.city.__doc__,
                              "'city.py' needs a docstring")
-        self.assertGreaterEqual(len(city_module.__doc__),
+        self.assertGreaterEqual(len(models.city.__doc__),
                                 1, "'city.py' docstring is too short")
 
     def test_city_class_docstring(self):

@@ -44,7 +44,7 @@ class TestAmenity_docs(unittest.TestCase):
     def test_amenity_module_docstring(self):
         """Test for the docstring in 'amenity.py' module"""
         self.assertIsNotNone(
-            amenity.__doc__, "Add a docstring to 'amenity.py'")
+            models.amenity.__doc__, "Add a docstring to 'amenity.py'")
         self.assertGreaterEqual(len(models.amenity.__doc__), 1,
                                 "Add a longer docstring to 'amenity.py'")
 

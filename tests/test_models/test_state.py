@@ -51,9 +51,8 @@ class TestState_docs(unittest.TestCase):
                     method.__doc__, f"{method_name} method needs a docstring"
                 )
                 self.assertGreaterEqual(
-                    len(method.__doc__), 1, f"{
-                        method_name} method docstring is too short"
-                )
+                    len(method.__doc__), 1,
+                    f"{method_name} method docstring is too short")
 
 
 class TestState(unittest.TestCase):

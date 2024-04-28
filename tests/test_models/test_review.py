@@ -29,23 +29,28 @@ class TestReview_docs(unittest.TestCase):
         """Test that 'models/review.py' conforms to PEP 8"""
         pep8_checker = pep8.StyleGuide(quiet=True)
         result = pep8_checker.check_files(['models/review.py'])
-        self.assertEqual(result.total_errors, 0, "PEP 8 code style errors in 'review.py'")
+        self.assertEqual(result.total_errors, 0,
+                         "PEP 8 code style errors in 'review.py'")
 
     def test_pep8_conformance_test_review(self):
         """Test that 'tests/test_models/test_review.py' conforms to PEP 8"""
         pep8_checker = pep8.StyleGuide(quiet=True)
         result = pep8_checker.check_files(['tests/test_models/test_review.py'])
-        self.assertEqual(result.total_errors, 0, "PEP 8 code style errors in 'test_review.py'")
+        self.assertEqual(result.total_errors, 0,
+                         "PEP 8 code style errors in 'test_review.py'")
 
     def test_review_module_docstring(self):
         """Test for the docstring in 'models/review.py'"""
-        self.assertIsNotNone(models.review.__doc__, "'review.py' needs a docstring")
-        self.assertGreaterEqual(len(models.review.__doc__), 1, "'review.py' docstring is too short")
+        self.assertIsNotNone(models.review.__doc__,
+                             "'review.py' needs a docstring")
+        self.assertGreaterEqual(
+            len(models.review.__doc__), 1, "'review.py' docstring is too short")
 
     def test_review_class_docstring(self):
         """Test for the docstring in the Review class"""
         self.assertIsNotNone(Review.__doc__, "Review class needs a docstring")
-        self.assertGreaterEqual(len(Review.__doc__), 1, "Review class docstring is too short")
+        self.assertGreaterEqual(len(Review.__doc__), 1,
+                                "Review class docstring is too short")
 
     def test_review_method_docstrings(self):
         """Test for the presence of docstrings in Review methods"""
@@ -55,8 +60,8 @@ class TestReview_docs(unittest.TestCase):
                     method.__doc__, f"{method_name} method needs a docstring"
                 )
                 self.assertGreaterEqual(
-                    len(method.__doc__), 1, f"{method_name} method docstring is too short"
-                )
+                    len(method.__doc__), 1,
+                    f"{method_name} method docstring is too short")
 
 
 class TestReview_instantiation(unittest.TestCase):

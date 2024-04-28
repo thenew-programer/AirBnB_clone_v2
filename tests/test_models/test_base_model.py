@@ -27,23 +27,29 @@ class TestBaseModel_docs(unittest.TestCase):
 
     def test_pep8_conformance(self):
         """Test that models/base_model.py and related test files conform to PEP 8"""
-        file_paths = ['models/base_model.py', 'tests/test_models/test_base_model.py']
+        file_paths = ['models/base_model.py',
+                      'tests/test_models/test_base_model.py']
         pep8_checker = pep8.StyleGuide(quiet=True)
-        
+
         for path in file_paths:
             with self.subTest(path=path):
                 errors = pep8_checker.check_files([path]).total_errors
-                self.assertEqual(errors, 0, f"PEP 8 code style errors in '{path}'")
+                self.assertEqual(
+                    errors, 0, f"PEP 8 code style errors in '{path}'")
 
     def test_module_docstring(self):
         """Test for the existence of module docstring in base_model.py"""
-        self.assertIsNotNone(base_model.__doc__, "base_model.py needs a docstring")
-        self.assertGreater(len(base_model.__doc__), 1, "base_model.py docstring is too short")
+        self.assertIsNotNone(base_model.__doc__,
+                             "base_model.py needs a docstring")
+        self.assertGreater(len(base_model.__doc__), 1,
+                           "base_model.py docstring is too short")
 
     def test_class_docstring(self):
         """Test for the BaseModel class docstring"""
-        self.assertIsNotNone(BaseModel.__doc__, "BaseModel class needs a docstring")
-        self.assertGreaterEqual(len(BaseModel.__doc__), 1, "BaseModel class docstring is too short")
+        self.assertIsNotNone(
+            BaseModel.__doc__, "BaseModel class needs a docstring")
+        self.assertGreaterEqual(len(BaseModel.__doc__),
+                                1, "BaseModel class docstring is too short")
 
     def test_method_docstrings(self):
         """Test for the presence of docstrings in BaseModel methods"""
@@ -53,8 +59,8 @@ class TestBaseModel_docs(unittest.TestCase):
                     method.__doc__, f"{method_name} method needs a docstring"
                 )
                 self.assertGreater(
-                    len(method.__doc__), 1, f"{method_name} method docstring is too short"
-                )
+                    len(method.__doc__), 1,
+                    f"{method_name} method docstring is too short")
 
 
 class TestBase_instantiation(unittest.TestCase):
