@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 """ Module for testing file storage"""
-import unittest
-from models import base_model
-from models.__init__ import storage
+
 import os
-BaseModel = base_model.BaseModel
+import unittest
+from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+from models import storage
 
 
 class test_fileStorage(unittest.TestCase):
@@ -13,10 +14,10 @@ class test_fileStorage(unittest.TestCase):
     def setUp(self):
         """ Set up test environment """
         del_list = []
-        for key in storage._FileStorage__objects.keys():
+        for key in storage.all().keys():
             del_list.append(key)
         for key in del_list:
-            del storage._FileStorage__objects[key]
+            del FileStorage.__objects[key]
 
     def tearDown(self):
         """ Remove storage file at end of tests """
