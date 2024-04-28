@@ -1,8 +1,60 @@
 #!/usr/bin/env python3
 """Unittest for User class"""
+
 import unittest
+import inspect
+import pep8
 from datetime import datetime
 from models.user import User
+import models.user as user_module
+
+
+class TestUser_docs(unittest.TestCase):
+    """Unit tests for checking the documentation and code style of the User class"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up for documentation tests"""
+        cls.user_methods = inspect.getmembers(User, inspect.isfunction)
+
+    def test_pep8_conformance_user(self):
+        """Test that 'models/user.py' conforms to PEP 8"""
+        pep8_checker = pep8.StyleGuide(quiet=True)
+        result = pep8_checker.check_files(['models/user.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "PEP 8 code style errors in 'user.py'")
+
+    def test_pep8_conformance_test_user(self):
+        """Test that 'tests/test_models/test_user.py' conforms to PEP 8"""
+        pep8_checker = pep8.StyleGuide(quiet=True)
+        result = pep8_checker.check_files(['tests/test_models/test_user.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "PEP 8 code style errors in 'test_user.py'")
+
+    def test_user_module_docstring(self):
+        """Test for the docstring in 'user.py' module"""
+        self.assertIsNotNone(user_module.__doc__,
+                             "'user.py' needs a docstring")
+        self.assertGreaterEqual(len(user_module.__doc__),
+                                1, "'user.py' docstring is too short")
+
+    def test_user_class_docstring(self):
+        """Test for the docstring in the User class"""
+        self.assertIsNotNone(User.__doc__, "User User class needs a docstring")
+        self.assertGreaterEqual(len(User.__doc__), 1,
+                                "User class docstring is too short")
+
+    def test_user_method_docstrings(self):
+        """Test for the presence of docstrings in User methods"""
+        for method_name, method in self.user_methods:
+            with self.subTest(method=method_name):
+                self.assertIsNotNone(
+                    method.__doc__, f"{method_name} method needs a docstring"
+                )
+                self.assertGreaterEqual(
+                    len(method.__doc__), 1, f"{
+                        method_name} method docstring is too short"
+                )
 
 
 class TestUser(unittest.TestCase):
@@ -70,4 +122,3 @@ class TestUser(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

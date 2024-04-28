@@ -2,16 +2,67 @@
 """Defines unittests for Place class.
 
 Unittest classes:
+    TestPlace_docs
     TestPlace_instantiation
     TestPlace_save
     TestPlace_to_dict
 """
 import os
-import models
-import unittest
+import inspect
 from datetime import datetime
 from time import sleep
+import unittest
+import pep8
+import models
 from models.place import Place
+
+
+class TestPlace_docs(unittest.TestCase):
+    """Unit tests for checking the documentation and code style of the Place class"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up for documentation tests"""
+        cls.place_methods = inspect.getmembers(Place, inspect.isfunction)
+
+    def test_pep8_conformance_place(self):
+        """Test that 'models/place.py' conforms to PEP 8"""
+        pep8_checker = pep8.StyleGuide(quiet=True)
+        result = pep8_checker.check_files(['models/place.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "PEP 8 code style issues in 'place.py'")
+
+    def test_pep8_conformance_test_place(self):
+        """Test that 'tests/test_models/test_place.py' conforms to PEP 8"""
+        pep8_checker = pep8.StyleGuide(quiet=True)
+        result = pep8_checker.check_files(['tests/test_models/test_place.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "PEP 8 code style issues in 'test_place.py'")
+
+    def test_place_module_docstring(self):
+        """Test for the docstring in 'models/place.py'"""
+        self.assertIsNotNone(models.place.__doc__,
+                             "'place.py' needs a docstring")
+        self.assertGreaterEqual(len(models.place.__doc__),
+                                1, "'place.py' docstring is too short")
+
+    def test_place_class_docstring(self):
+        """Test for the docstring in the Place class"""
+        self.assertIsNotNone(Place.__doc__, "Place class needs a docstring")
+        self.assertGreaterEqual(len(Place.__doc__), 1,
+                                "Place class docstring is too short")
+
+    def test_place_method_docstrings(self):
+        """Test for the presence of docstrings in Place methods"""
+        for method_name, method in self.place_methods:
+            with self.subTest(method=method_name):
+                self.assertIsNotNone(
+                    method.__doc__, f"{method_name} method needs a docstring"
+                )
+                self.assertGreaterEqual(
+                    len(method.__doc__), 1, f"{
+                        method_name} method docstring is too short"
+                )
 
 
 class TestPlace_instantiation(unittest.TestCase):
@@ -246,4 +297,3 @@ class TestPlace_to_dict(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

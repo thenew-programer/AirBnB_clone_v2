@@ -2,16 +2,61 @@
 """Defines unittests for Review class.
 
 Unittest classes:
+    TestReview_docs
     TestReview_instantiation
     TestReview_save
     TestReview_to_dict
 """
 import os
-import models
 import unittest
+import inspect
+import pep8
+import models
 from datetime import datetime
 from time import sleep
 from models.review import Review
+
+
+class TestReview_docs(unittest.TestCase):
+    """Unit tests for checking documentation and code style of the Review class"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up for the documentation tests"""
+        cls.review_methods = inspect.getmembers(Review, inspect.isfunction)
+
+    def test_pep8_conformance_review(self):
+        """Test that 'models/review.py' conforms to PEP 8"""
+        pep8_checker = pep8.StyleGuide(quiet=True)
+        result = pep8_checker.check_files(['models/review.py'])
+        self.assertEqual(result.total_errors, 0, "PEP 8 code style errors in 'review.py'")
+
+    def test_pep8_conformance_test_review(self):
+        """Test that 'tests/test_models/test_review.py' conforms to PEP 8"""
+        pep8_checker = pep8.StyleGuide(quiet=True)
+        result = pep8_checker.check_files(['tests/test_models/test_review.py'])
+        self.assertEqual(result.total_errors, 0, "PEP 8 code style errors in 'test_review.py'")
+
+    def test_review_module_docstring(self):
+        """Test for the docstring in 'models/review.py'"""
+        self.assertIsNotNone(models.review.__doc__, "'review.py' needs a docstring")
+        self.assertGreaterEqual(len(models.review.__doc__), 1, "'review.py' docstring is too short")
+
+    def test_review_class_docstring(self):
+        """Test for the docstring in the Review class"""
+        self.assertIsNotNone(Review.__doc__, "Review class needs a docstring")
+        self.assertGreaterEqual(len(Review.__doc__), 1, "Review class docstring is too short")
+
+    def test_review_method_docstrings(self):
+        """Test for the presence of docstrings in Review methods"""
+        for method_name, method in self.review_methods:
+            with self.subTest(method=method_name):
+                self.assertIsNotNone(
+                    method.__doc__, f"{method_name} method needs a docstring"
+                )
+                self.assertGreaterEqual(
+                    len(method.__doc__), 1, f"{method_name} method docstring is too short"
+                )
 
 
 class TestReview_instantiation(unittest.TestCase):
@@ -198,4 +243,3 @@ class TestReview_to_dict(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
