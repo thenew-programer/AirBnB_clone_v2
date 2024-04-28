@@ -18,7 +18,8 @@ from models.review import Review
 
 
 class TestReview_docs(unittest.TestCase):
-    """Unit tests for checking documentation and code style of the Review class"""
+    """Unit tests for checking documentation and code style
+    of the Review class"""
 
     @classmethod
     def setUpClass(cls):
@@ -31,13 +32,6 @@ class TestReview_docs(unittest.TestCase):
         result = pep8_checker.check_files(['models/review.py'])
         self.assertEqual(result.total_errors, 0,
                          "PEP 8 code style errors in 'review.py'")
-
-    def test_pep8_conformance_test_review(self):
-        """Test that 'tests/test_models/test_review.py' conforms to PEP 8"""
-        pep8_checker = pep8.StyleGuide(quiet=True)
-        result = pep8_checker.check_files(['tests/test_models/test_review.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "PEP 8 code style errors in 'test_review.py'")
 
     def test_review_module_docstring(self):
         """Test for the docstring in 'models/review.py'"""

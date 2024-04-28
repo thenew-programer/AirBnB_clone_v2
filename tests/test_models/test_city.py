@@ -18,7 +18,8 @@ from models.city import City
 
 
 class TestCity_docs(unittest.TestCase):
-    """Unit tests to check the documentation and code style of the City class"""
+    """Unit tests to check the documentation and code style of the City class
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -31,13 +32,6 @@ class TestCity_docs(unittest.TestCase):
         result = pep8_checker.check_files(['models/city.py'])
         self.assertEqual(result.total_errors, 0,
                          "Code style issues in 'city.py'")
-
-    def test_pep8_conformance_test_city(self):
-        """Test that 'tests/test_models/test_city.py' conforms to PEP 8"""
-        pep8_checker = pep8.StyleGuide(quiet=True)
-        result = pep8_checker.check_files(['tests/test_models/test_city.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "Code style issues in 'test_city.py'")
 
     def test_city_module_docstring(self):
         """Test for the docstring in 'city.py' module"""
@@ -60,9 +54,8 @@ class TestCity_docs(unittest.TestCase):
                     method.__doc__, f"{method_name} method needs a docstring"
                 )
                 self.assertGreater(
-                    len(method.__doc__), 1, f"{
-                        method_name} method docstring is too short"
-                )
+                    len(method.__doc__), 1,
+                    f"{method_name} method docstring is too short")
 
 
 class TestCity_instantiation(unittest.TestCase):

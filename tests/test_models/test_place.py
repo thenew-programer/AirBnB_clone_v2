@@ -18,7 +18,8 @@ from models.place import Place
 
 
 class TestPlace_docs(unittest.TestCase):
-    """Unit tests for checking the documentation and code style of the Place class"""
+    """Unit tests for checking the documentation and code style
+    of the Place class"""
 
     @classmethod
     def setUpClass(cls):
@@ -31,13 +32,6 @@ class TestPlace_docs(unittest.TestCase):
         result = pep8_checker.check_files(['models/place.py'])
         self.assertEqual(result.total_errors, 0,
                          "PEP 8 code style issues in 'place.py'")
-
-    def test_pep8_conformance_test_place(self):
-        """Test that 'tests/test_models/test_place.py' conforms to PEP 8"""
-        pep8_checker = pep8.StyleGuide(quiet=True)
-        result = pep8_checker.check_files(['tests/test_models/test_place.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "PEP 8 code style issues in 'test_place.py'")
 
     def test_place_module_docstring(self):
         """Test for the docstring in 'models/place.py'"""

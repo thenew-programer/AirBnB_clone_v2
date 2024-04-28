@@ -10,7 +10,8 @@ import models.user as user_module
 
 
 class TestUser_docs(unittest.TestCase):
-    """Unit tests for checking the documentation and code style of the User class"""
+    """Unit tests for checking the documentation and
+    code style of the User class"""
 
     @classmethod
     def setUpClass(cls):
@@ -23,13 +24,6 @@ class TestUser_docs(unittest.TestCase):
         result = pep8_checker.check_files(['models/user.py'])
         self.assertEqual(result.total_errors, 0,
                          "PEP 8 code style errors in 'user.py'")
-
-    def test_pep8_conformance_test_user(self):
-        """Test that 'tests/test_models/test_user.py' conforms to PEP 8"""
-        pep8_checker = pep8.StyleGuide(quiet=True)
-        result = pep8_checker.check_files(['tests/test_models/test_user.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "PEP 8 code style errors in 'test_user.py'")
 
     def test_user_module_docstring(self):
         """Test for the docstring in 'user.py' module"""

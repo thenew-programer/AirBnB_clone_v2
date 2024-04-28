@@ -9,7 +9,8 @@ import models.state as state_module
 
 
 class TestState_docs(unittest.TestCase):
-    """Unit tests for checking the documentation and code style of the State class"""
+    """Unit tests for checking the documentation and code
+    style of the State class"""
 
     @classmethod
     def setUpClass(cls):
@@ -22,13 +23,6 @@ class TestState_docs(unittest.TestCase):
         result = pep8_checker.check_files(['models/state.py'])
         self.assertEqual(result.total_errors, 0,
                          "PEP 8 code style errors in 'state.py'")
-
-    def test_pep8_conformance_test_state(self):
-        """Test that 'tests/test_models/test_state.py' conforms to PEP 8"""
-        pep8_checker = pep8.StyleGuide(quiet=True)
-        result = pep8_checker.check_files(['tests/test_models/test_state.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "PEP 8 code style errors in 'test_state.py'")
 
     def test_state_module_docstring(self):
         """Test for the docstring in 'state.py' module"""

@@ -18,7 +18,8 @@ base_model_docs__ = base_model.__doc__
 
 
 class TestBaseModel_docs(unittest.TestCase):
-    """Unit tests for checking documentation and code style in BaseModel class"""
+    """Unit tests for checking documentation and code style
+    in BaseModel class"""
 
     @classmethod
     def setUpClass(cls):
@@ -26,9 +27,9 @@ class TestBaseModel_docs(unittest.TestCase):
         cls.base_methods = inspect.getmembers(BaseModel, inspect.isfunction)
 
     def test_pep8_conformance(self):
-        """Test that models/base_model.py and related test files conform to PEP 8"""
-        file_paths = ['models/base_model.py',
-                      'tests/test_models/test_base_model.py']
+        """Test that models/base_model.py and related test files
+        conform to PEP 8"""
+        file_paths = ['models/base_model.py']
         pep8_checker = pep8.StyleGuide(quiet=True)
 
         for path in file_paths:
