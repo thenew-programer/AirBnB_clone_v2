@@ -55,6 +55,7 @@ class DBStorage:
                 objs = {cls: clsobj}
 
         for obj in objs.values():
+            print("print from models/engine/db_storage.py (all method)")
             print(f"obj = {obj.__class__.__name__}")
             for instance in self.__session.query(obj).all():
                 key = f"{type(instance).__class__.__name__}.{str(instance.id)}"
