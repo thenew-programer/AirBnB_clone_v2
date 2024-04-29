@@ -125,6 +125,7 @@ class HBNBCommand(cmd.Cmd):
         all_list = args.split(" ")
 
         new_instance = classes[class_name]()
+        kwargs = {}
 
         for i in range(1, len(all_list)):
             key, value = tuple(all_list[i].split("="))
@@ -133,7 +134,9 @@ class HBNBCommand(cmd.Cmd):
 
             if key in HBNBCommand.types.keys():
                 value = HBNBCommand.types[key](value)
+            kwargs[key] = value
 
+        new_instance = classes[class_name](**kwargs)
             if hasattr(new_instance, key):
                 setattr(new_instance, key, value)
 
