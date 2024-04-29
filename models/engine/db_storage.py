@@ -45,7 +45,7 @@ class DBStorage:
         depending on cls
         """
         dictionary = {}
-        objs = dict(classes)
+        objs = classes.copy()
         if cls:
             print(f"cls = {cls}")
             try:
