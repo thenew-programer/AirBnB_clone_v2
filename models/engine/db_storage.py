@@ -11,6 +11,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+from models import classes
 import models
 
 
@@ -44,14 +45,16 @@ class DBStorage:
         depending on cls
         """
         dictionary = {}
-        objs = dict(models.classes)
+        objs = dict(classes)
         if cls:
+            print(f"cls = {cls}")
             try:
-                clsobj = objs[cls]
+                clsobj = classes[cls]
             except KeyError:
                 pass
             else:
                 objs = {cls: clsobj}
+                print(f"objs = {objs}")
 
         for obj in objs.values():
             print(f"obj = {obj.__class__.__name__}")
