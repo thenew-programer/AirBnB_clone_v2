@@ -11,7 +11,6 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-from models import classes
 import models
 
 
@@ -45,7 +44,7 @@ class DBStorage:
         depending on cls
         """
         dictionary = {}
-        objs = dict(classes)
+        objs = dict(models.classes)
         if cls:
             try:
                 clsobj = objs[cls]
@@ -55,7 +54,6 @@ class DBStorage:
                 objs = {cls: clsobj}
 
         for obj in objs.values():
-            print("print from models/engine/db_storage.py (all method)")
             print(f"obj = {obj.__class__.__name__}")
             for instance in self.__session.query(obj).all():
                 key = f"{type(instance).__class__.__name__}.{str(instance.id)}"
