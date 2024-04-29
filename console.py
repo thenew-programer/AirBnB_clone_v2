@@ -21,10 +21,10 @@ class HBNBCommand(cmd.Cmd):
 
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -118,35 +118,47 @@ class HBNBCommand(cmd.Cmd):
         if not class_name:
             print("** class name missing **")
             return
-        elif class_name not in HBNBCommand.classes:
+        elif class_name not in classes:
             print("** class doesn't exist **")
             return
         # create Place city_id="0001" user_id="0001" name="My_little_house"
         all_list = args.split(" ")
 
-        new_instance = eval(class_name)()
+        new_instance = classes[class_name]()
 
         for i in range(1, len(all_list)):
             key, value = tuple(all_list[i].split("="))
             if value.startswith('"'):
                 value = value.strip('"').replace("_", " ")
-            else:
-                try:
-                    value = eval(value)
-                except Exception:
-                    print(f"** couldn't evaluate {value}")
-                    pass
-             if hasattr(new_instance, key):
+
+            if key in HBNBCommand.types.keys():
+                value = HBNBCommand.types[key](value)
+
+            if hasattr(new_instance, key):
                 setattr(new_instance, key, value)
 
         storage.new(new_instance)
         print(new_instance.id)
-        new_instance.save()()
+        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
-        print("Creates a class of any type")
-        print("[Usage]: create <className>\n")
+        print(
+            "Command syntax: create <Class name> <param 1> <param 2>"
+            " <param 3>...\n"
+            "Param syntax: <key name>=<value>\n"
+            "Value syntax:\n"
+            "  - String: \"<value>\" must start with a double quote.\n"
+            "    - Double quotes within the value must be escaped with"
+            " a backslash (\\).\n"
+            "    - Underscores (_) must be replaced with spaces.\n"
+            "      Example: name=\"My_little_house\" becomes 'My little "
+            "house'.\n"
+            "  - Float: <unit>.<decimal> indicates a floating-point"
+            " number with a dot (.).\n"
+            "  - Integer: <number> when the value is a whole number without"
+            " a dot.\n"
+        )
 
     def do_show(self, args):
         """ Method to show an individual object """
@@ -204,7 +216,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -337,6 +349,6 @@ class HBNBCommand(cmd.Cmd):
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
 
+
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
-
