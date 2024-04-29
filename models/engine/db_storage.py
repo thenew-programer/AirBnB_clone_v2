@@ -58,11 +58,12 @@ class DBStorage:
                 print(f"objs = {objs}")
 
         for obj in objs.values():
-            print(f"obj = {obj}")
-            print(dictionary)
-            for instance in self.__session.query(obj).all():
-                key = f"{type(instance).__class__.__name__}.{str(instance.id)}"
-                dictionary[key] = instance
+            if obj == classes['State']:
+                print(f"obj = {obj}")
+                print(dictionary)
+                for instance in self.__session.query(obj).all():
+                    key = f"{type(instance).__class__.__name__}.{str(instance.id)}"
+                    dictionary[key] = instance
 
         return dictionary
 
