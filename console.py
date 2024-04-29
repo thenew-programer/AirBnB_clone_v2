@@ -124,23 +124,23 @@ class HBNBCommand(cmd.Cmd):
         # create Place city_id="0001" user_id="0001" name="My_little_house"
         all_list = args.split(" ")
 
-        new_instance = classes[class_name]()
         kwargs = {}
 
-        for i in range(1, len(all_list)):
-            key, value = tuple(all_list[i].split("="))
-            if value.startswith('"'):
-                value = value.strip('"').replace("_", " ")
+        if len(all_list) > 1:
+            for i in range(1, len(all_list)):
+                key, value = tuple(all_list[i].split("="))
+                if value.startswith('"'):
+                    value = value.strip('"').replace("_", " ")
 
-            if key in HBNBCommand.types.keys():
-                value = HBNBCommand.types[key](value)
-            kwargs[key] = value
+                if key in HBNBCommand.types.keys():
+                    value = HBNBCommand.types[key](value)
+                kwargs[key] = value
 
-        new_instance = classes[class_name](**kwargs)
-            if hasattr(new_instance, key):
-                setattr(new_instance, key, value)
+            new_instance = classes[class_name](**kwargs)
+            storage.new(new_instance)
+        else:
+            new_instance = classes[class_name]()
 
-        storage.new(new_instance)
         print(new_instance.id)
         new_instance.save()
 
@@ -216,13 +216,12 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        key = c_name + "." + c_id
-
-        try:
-            del (storage.all()[key])
-            storage.save()
-        except KeyError:
-            print("** no instance found **")
+        for instance in storage.all(c_name).values():
+            if instance.id == c_id:
+                storage.delete(instance)
+                storage.save()
+                return
+        print("** no instance found **")
 
     def help_destroy(self):
         """ Help information for the destroy command """
@@ -238,10 +237,10 @@ class HBNBCommand(cmd.Cmd):
             if args not in classes.keys():
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.all(args).items():
+            for v in storage.all(args).values():
                 print_list.append(str(v))
         else:
-            for k, v in storage.all().items():
+            for v in storage.all().values():
                 print_list.append(str(v))
 
         print(print_list)
