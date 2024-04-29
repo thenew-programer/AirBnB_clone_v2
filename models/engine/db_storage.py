@@ -45,7 +45,7 @@ class DBStorage:
         depending on cls
         """
         dictionary = {}
-        objs = classes.copy()
+        objs = dict(classes)
         if cls:
             try:
                 clsobj = objs[cls]
@@ -56,8 +56,9 @@ class DBStorage:
 
         for obj in objs.values():
             for instance in self.__session.query(obj).all():
-                key = f"{instance.__class__.__name__}.{str(instance.id)}"
+                key = f"{type(instance).__class__.__name__}.{str(instance.id)}"
                 dictionary[key] = instance
+
         return dictionary
 
     def new(self, obj):
