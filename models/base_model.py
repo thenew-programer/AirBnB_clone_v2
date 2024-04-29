@@ -19,16 +19,14 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if kwargs:
-            try:
-                del kwargs['__class__']
-            except KeyError:
-                pass
-
-            if id not in kwargs:
+            if 'id' not in kwargs:
                 setattr(self, 'id', str(uuid.uuid4()))
 
-            for key, value in kwargs:
-                if key == 'updated_at' or key == 'created_at':
+            if '__class__' in kwargs:
+                del kwargs['__class__']
+
+            for key, value in kwargs.items():
+                if key in ('updated_at', 'created_at'):
                     value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
                 setattr(self, key, value)
         else:
@@ -41,12 +39,13 @@ class BaseModel:
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
 
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        return f'[{cls}] ({self.id}) {self.__dict__}'
 
     def __repr__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+
+        return f'[{cls}] ({self.id}) {self.__dict__}'
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
