@@ -15,6 +15,6 @@ class Place(BaseModel):
     number_bathrooms = Column(Integer, default=0)
     max_guest = Column(Integer, default=0)
     price_by_night = Column(Integer, default=0)
-    latitude = Column(Float, nullable=False)
-    longitude = Column(Float, nullable=False)
+    latitude = Column(Float)
+    longitude = Column(Float)
     amenity_ids = []
