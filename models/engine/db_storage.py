@@ -70,7 +70,7 @@ class DBStorage:
 
     def delete(self, obj=None):
         """delete obj if exists from db"""
-            self.__session.delete(obj)
+        self.__session.delete(obj)
 
     def reload(self):
         """
