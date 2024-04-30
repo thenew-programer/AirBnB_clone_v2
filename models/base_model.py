@@ -49,7 +49,7 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-	from models import storage
+        from models import storage
         self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
@@ -62,14 +62,13 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-	dictionary.pop('_sa_instance_state')
-	try:
+        try:
             del dictionary['_sa_instance_state']
         except KeyError:
-            pass
+                pass
         return dictionary
 
     def delete(self):
         """Delete current instance from storage"""
-	from models import storage
+        from models import storage
         models.storage.delete(self)
