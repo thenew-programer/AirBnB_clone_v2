@@ -18,36 +18,31 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
+
+        self.id = str(uuid.uuid4())
+        self.created_at = self.updated_at = datetime.utcnow()
         if kwargs:
             for key, value in kwargs.items():
-                if key in ('updated_at', 'created_at'):
-                    value = datetime.strptime(
-                        value, '%Y-%m-%dT%H:%M:%S.%f')
-                if key != '__class__':
+                if key in ("created_at", "updated_at"):
+                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                if key != "__class__":
                     setattr(self, key, value)
-
-            if 'id' not in kwargs:
-                setattr(self, 'id', str(uuid.uuid4()))
-            if 'created_at' not in kwargs:
-                self.created_at = datetime.utcnow()
-            if 'updated_at' not in kwargs:
-                self.updated_at = datetime.utcnow()
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.utcnow()
-            self.updated_at = datetime.utcnow()
 
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = self.__class__.__name__
+        dictionary = self.__dict__.copy()
+        dictionary.pop("_sa_instance_state", None)
 
-        return f'[{cls}] ({self.id}) {self.__dict__}'
+        return f'[{cls}] ({self.id}) {dictionary}'
 
     def __repr__(self):
         """Returns a string representation of the instance"""
         cls = self.__class__.__name__
+        dictionary = self.__dict__.copy()
+        dictionary.pop("_sa_instance_state", None)
 
-        return f'[{cls}] ({self.id}) {self.__dict__}'
+        return f'[{cls}] ({self.id}) {dictionary}'
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
