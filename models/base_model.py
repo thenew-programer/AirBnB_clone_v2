@@ -40,14 +40,18 @@ class BaseModel:
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = self.__class__.__name__
+        dictionary = self.__dict__.copy()
+        dictionary.pop("_sa_instance_state", None)
 
-        return f'[{cls}] ({self.id}) {self.__dict__}'
+        return f'[{cls}] ({self.id}) {dictionary}'
 
     def __repr__(self):
         """Returns a string representation of the instance"""
         cls = self.__class__.__name__
+        dictionary = self.__dict__.copy()
+        dictionary.pop("_sa_instance_state", None)
 
-        return f'[{cls}] ({self.id}) {self.__dict__}'
+        return f'[{cls}] ({self.id}) {dictionary}'
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
@@ -70,5 +74,4 @@ class BaseModel:
 
     def delete(self):
         """Delete current instance from storage"""
-
         models.storage.delete(self)

@@ -123,8 +123,9 @@ class HBNBCommand(cmd.Cmd):
 
         # create Place city_id="0001" user_id="0001" name="My_little_house"
         all_list = args.split(" ")
+        kwargs = {}
 
-        new_instance = classes[class_name]()
+        new_instance = eval(class_name)()
 
         for i in range(1, len(all_list)):
             key, value = tuple(all_list[i].split("="))
@@ -134,8 +135,13 @@ class HBNBCommand(cmd.Cmd):
             if key in HBNBCommand.types.keys():
                 value = HBNBCommand.types[key](value)
 
-            setattr(new_instance, key, value)
+            kwargs[key] = value
 
+        if kwargs == {}:
+            new_instanc = eval(class_name)()
+        else:
+            new_instance = eval(class_name)(**kwargs)
+            storage.new(new_instance)
 
         print(new_instance.id)
         new_instance.save()
