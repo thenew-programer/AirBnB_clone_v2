@@ -19,9 +19,6 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if kwargs:
-            if 'id' not in kwargs:
-                setattr(self, 'id', str(uuid.uuid4()))
-
             if '__class__' in kwargs:
                 del kwargs['__class__']
 
@@ -29,6 +26,9 @@ class BaseModel:
                 if key in ('updated_at', 'created_at'):
                     value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
                 setattr(self, key, value)
+
+            if 'id' not in kwargs:
+                setattr(self, 'id', str(uuid.uuid4()))
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
@@ -61,10 +61,9 @@ class BaseModel:
             {'__class__': (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        try:
+        if '_sa_instance_state' in dictionary:
             del dictionary['_sa_instance_state']
-        except KeyError:
-            pass
+
         return dictionary
 
     def delete(self):
