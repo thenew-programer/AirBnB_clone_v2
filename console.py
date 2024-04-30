@@ -114,13 +114,13 @@ class HBNBCommand(cmd.Cmd):
         try:
             class_name = args.split(" ")[0]
         except IndexError:
-            pass
-        if not class_name:
             print("** class name missing **")
             return
-        elif class_name not in classes:
+
+        if class_name not in classes:
             print("** class doesn't exist **")
             return
+
         # create Place city_id="0001" user_id="0001" name="My_little_house"
         all_list = args.split(" ")
 
