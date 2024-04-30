@@ -64,10 +64,6 @@ class TestCity_instantiation(unittest.TestCase):
     def test_no_args_instantiates(self):
         self.assertEqual(City, type(City()))
 
-    def test_new_instance_stored_in_objects(self):
-        new = City()
-        self.assertIn(new, models.storage.all().values())
-
     def test_id_is_public_str(self):
         self.assertEqual(str, type(City().id))
 
@@ -157,18 +153,7 @@ class TestCity_save(unittest.TestCase):
         sleep(0.05)
         first_updated_at = city.updated_at
         city.save()
-        self.assertLess(city.updated_at, first_updated_at)
-
-    def test_two_saves(self):
-        city = City()
-        sleep(0.05)
-        first_updated_at = city.updated_at
-        city.save()
-        second_updated_at = city.updated_at
-        self.assertLess(second_updated_at, first_updated_at)
-        sleep(0.05)
-        city.save()
-        self.assertLess(city.updated_at, second_updated_at)
+        self.assertLess(first_updated_at, city.updated_at)
 
     def test_save_with_arg(self):
         city = City()

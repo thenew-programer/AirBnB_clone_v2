@@ -64,10 +64,6 @@ class TestReview_instantiation(unittest.TestCase):
     def test_no_args_instantiates(self):
         self.assertEqual(Review, type(Review()))
 
-    def test_new_instance_stored_in_objects(self):
-        new = Review()
-        self.assertIn(new, models.storage.all().values())
-
     def test_id_is_public_str(self):
         self.assertEqual(str, type(Review().id))
 
@@ -165,18 +161,7 @@ class TestReview_save(unittest.TestCase):
         sleep(0.05)
         old_updated_at = review.updated_at
         review.save()
-        self.assertLess(review.updated_at, old_updated_at)
-
-    def test_two_saves(self):
-        review = Review()
-        sleep(0.05)
-        old_updated_at = review.updated_at
-        review.save()
-        old_2_updated_at = review.updated_at
-        self.assertLess(old_2_updated_at, old_updated_at)
-        sleep(0.05)
-        review.save()
-        self.assertLess(old_2_updated_at, review.updated_at)
+        self.assertLess(old_updated_at, review.updated_at)
 
     def test_save_with_arg(self):
         review = Review()

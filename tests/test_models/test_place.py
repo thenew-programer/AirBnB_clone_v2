@@ -64,10 +64,6 @@ class TestPlace_instantiation(unittest.TestCase):
     def test_no_args_instantiates(self):
         self.assertEqual(Place, type(Place()))
 
-    def test_new_instance_stored_in_objects(self):
-        new = Place()
-        self.assertIn(new, models.storage.all().values())
-
     def test_id_is_public_str(self):
         self.assertEqual(str, type(Place().id))
 

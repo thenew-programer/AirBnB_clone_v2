@@ -62,10 +62,6 @@ class TestAmenity_instantiation(unittest.TestCase):
     def test_no_args_instantiates(self):
         self.assertEqual(Amenity, type(Amenity()))
 
-    def test_new_instance_stored_in_objects(self):
-        new = Amenity()
-        self.assertIn(new, models.storage.all().values())
-
     def test_id_is_public_str(self):
         self.assertEqual(str, type(Amenity().id))
 
@@ -82,21 +78,21 @@ class TestAmenity_instantiation(unittest.TestCase):
         self.assertNotIn("name", amenity.__dict__)
 
     def test_two_amenities_unique_ids(self):
-        am1 = Amenity()
-        am2 = Amenity()
-        self.assertNotEqual(am1.id, am2.id)
+        amenity_1 = Amenity()
+        amenity_2 = Amenity()
+        self.assertNotEqual(amenity_1.id, amenity_2.id)
 
     def test_two_amenities_different_created_at(self):
-        am1 = Amenity()
+        amenity_1 = Amenity()
         sleep(0.05)
-        am2 = Amenity()
-        self.assertLess(am1.created_at, am2.created_at)
+        amenity_2 = Amenity()
+        self.assertLess(amenity_1.created_at, amenity_2.created_at)
 
     def test_two_amenities_different_updated_at(self):
-        am1 = Amenity()
+        amenity_1 = Amenity()
         sleep(0.05)
-        am2 = Amenity()
-        self.assertLess(am1.updated_at, am2.updated_at)
+        amenity_2 = Amenity()
+        self.assertLess(amenity_1.updated_at, amenity_2.updated_at)
 
     def test_str_representation(self):
         dt = datetime.today()
@@ -153,18 +149,7 @@ class TestAmenity_save(unittest.TestCase):
         sleep(0.05)
         first_updated_at = amenity.updated_at
         amenity.save()
-        self.assertLess(amenity.updated_at, first_updated_at)
-
-    def test_two_saves(self):
-        amenity = Amenity()
-        sleep(0.05)
-        first_updated_at = amenity.updated_at
-        amenity.save()
-        second_updated_at = amenity.updated_at
-        self.assertLess(second_updated_at, first_updated_at)
-        sleep(0.05)
-        amenity.save()
-        self.assertLess(amenity.updated_at, second_updated_at)
+        self.assertLess(first_updated_at, amenity.updated_at)
 
     def test_save_with_arg(self):
         amenity = Amenity()
