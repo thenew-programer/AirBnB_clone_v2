@@ -11,10 +11,15 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-classes = {"User": User, "BaseModel": BaseModel,
-           "Place": Place, "State": State,
-           "City": City, "Amenity": Amenity,
-           "Review": Review}
+classes = {
+    "City": City,
+    "Place": Place,
+    "Review": Review,
+    "BaseModel": BaseModel,
+    "Amenity": Amenity,
+    "State": State,
+    "User": User,
+}
 
 if os.getenv('HBNB_TYPE_STORAGE') == 'db':
     from models.engine.db_storage import DBStorage

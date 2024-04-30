@@ -13,37 +13,38 @@ class BaseModel:
     """A base class for all hbnb models"""
 
     id = Column(String(60), primary_key=True)
-    create_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-    update_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
-        if not kwargs:
+        if kwargs:
+            for key, value in kwargs.items():
+                if key != '__class__':
+                    if key in ('updated_at', 'created_at'):
+                        value = datetime.strptime(
+                            value, '%Y-%m-%dT%H:%M:%S.%f')
+                    setattr(self, key, value)
+
+            if 'id' not in kwargs:
+                setattr(self, 'id', str(uuid.uuid4()))
+        else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
             models.storage.new(self)
-        else:
-            try:
-                kwargs['updated_at'] = datetime.strptime(
-                    kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
-                kwargs['created_at'] = datetime.strptime(
-                    kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
-                del kwargs['__class__']
-            except KeyError:
-                pass
-            self.__dict__.update(kwargs)
 
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
 
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        return f'[{cls}] ({self.id}) {self.__dict__}'
 
     def __repr__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+
+        return f'[{cls}] ({self.id}) {self.__dict__}'
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
@@ -59,10 +60,9 @@ class BaseModel:
             {'__class__': (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        try:
+        if '_sa_instance_state' in dictionary:
             del dictionary['_sa_instance_state']
-        except KeyError:
-            pass
+
         return dictionary
 
     def delete(self):
