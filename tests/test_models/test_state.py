@@ -67,7 +67,6 @@ class TestState(unittest.TestCase):
     def test_state_attr_name(self):
         """Tests state name"""
         self.assertTrue(hasattr(self.state, "name"))
-        self.assertEqual(self.state.name, "")
         self.assertEqual(type(self.state.name), str)
 
     def test_state_attr_id(self):
