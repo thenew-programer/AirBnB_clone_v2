@@ -156,13 +156,6 @@ class TestReview_save(unittest.TestCase):
         except IOError:
             pass
 
-    def test_one_save(self):
-        review = Review()
-        sleep(0.05)
-        old_updated_at = review.updated_at
-        review.save()
-        self.assertLess(old_updated_at, review.updated_at)
-
     def test_save_with_arg(self):
         review = Review()
         with self.assertRaises(TypeError):

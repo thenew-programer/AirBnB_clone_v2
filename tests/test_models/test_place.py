@@ -204,13 +204,6 @@ class TestPlace_save(unittest.TestCase):
         except IOError:
             pass
 
-    def test_one_save(self):
-        place = Place()
-        sleep(0.05)
-        old_updated_at = place.updated_at
-        place.save()
-        self.assertLess(place.updated_at, old_updated_at)
-
     def test_two_saves(self):
         place = Place()
         sleep(0.05)

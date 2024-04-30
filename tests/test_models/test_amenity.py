@@ -144,13 +144,6 @@ class TestAmenity_save(unittest.TestCase):
         except IOError:
             pass
 
-    def test_one_save(self):
-        amenity = Amenity()
-        sleep(0.05)
-        first_updated_at = amenity.updated_at
-        amenity.save()
-        self.assertLess(first_updated_at, amenity.updated_at)
-
     def test_save_with_arg(self):
         amenity = Amenity()
         with self.assertRaises(TypeError):

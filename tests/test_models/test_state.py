@@ -55,6 +55,7 @@ class TestState(unittest.TestCase):
     def setUp(self):
         """Sets up State for testing"""
         self.state = State()
+        self.state.name = "hello"
 
     def tearDown(self):
         """Tears down State testing"""
