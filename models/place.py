@@ -1,6 +1,12 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from sqlalchemy import (String, Column, Integer, Float, ForeignKey)
+from sqlalchemy import (
+    String,
+    Column,
+    Integer,
+    Float,
+    ForeignKey
+)
 from models.base_model import BaseModel, Base
 
 
@@ -15,6 +21,6 @@ class Place(BaseModel):
     number_bathrooms = Column(Integer, default=0)
     max_guest = Column(Integer, default=0)
     price_by_night = Column(Integer, default=0)
-    latitude = Column(Float)
-    longitude = Column(Float)
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
     amenity_ids = []
