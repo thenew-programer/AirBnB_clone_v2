@@ -48,7 +48,7 @@ class BaseModel:
     def __repr__(self):
         """Returns a string representation of the instance"""
         cls = self.__class__.__name__
-        dictionary = self.__dict__.copy()
+        dictionary.update(self.__dict__)
         dictionary.pop("_sa_instance_state", None)
 
         return f'[{cls}] ({self.id}) {dictionary}'

@@ -3,7 +3,11 @@
 
 import os
 from sqlalchemy import (create_engine)
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import (
+    sessionmaker,
+    scoped_session,
+    relationship
+)
 from models.base_model import Base
 from models.user import User
 from models.state import State
@@ -75,7 +79,6 @@ class DBStorage:
         """delete obj if exists from db"""
         if obj:
             self.__session.delete(obj)
-            self.save()
 
     def reload(self):
         """
@@ -83,8 +86,8 @@ class DBStorage:
         create the current database session
         """
         Base.metadata.create_all(self.__engine)
-
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
