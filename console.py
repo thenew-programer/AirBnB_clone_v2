@@ -128,8 +128,6 @@ class HBNBCommand(cmd.Cmd):
         all_list = args.split(" ")
         kwargs = {}
 
-        new_instance = eval(class_name)()
-
         for i in range(1, len(all_list)):
             key, value = tuple(all_list[i].split("="))
             if value.startswith('"'):
